@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { LESSONS } from '../data/lessons';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Video lessons · Empirio-style</p>
+    <h1>Learn by deciding</h1>
+    <div class="grid">
+      {LESSONS.map((l) => (
+        <a href={`/lessons/${l.slug}`}><strong>{l.title}</strong><span>{l.level} · {l.minutes} min · +{l.xp} XP</span></a>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;} .grid{display:grid;gap:10px;} .grid a{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:16px;color:#F5F7FA;text-decoration:none;display:flex;flex-direction:column;gap:4px;} .grid span{color:#9AA4B2;font-size:13px;}</style>

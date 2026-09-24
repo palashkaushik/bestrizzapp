@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Dashboard</p>
+    <h1>Train today</h1>
+    <p class="sub">XP <strong id="xp">0</strong> · Streak <strong id="streak">0</strong></p>
+    <div class="grid">
+      <a href="/lessons">Video lessons →</a>
+      <a href="/missions">Missions →</a>
+      <a href="/practice">AI practice →</a>
+      <a href="/cases">Cases →</a>
+      <a href="/profile">Confidence Radar →</a>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { getXP, getStreak } from '../lib/store';
+  document.getElementById('xp')!.textContent = String(getXP());
+  document.getElementById('streak')!.textContent = String(getStreak());
+</script>
+
+<style>
+  main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;font-family:Inter,system-ui,sans-serif;max-width:720px;margin:0 auto;}
+  .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  .sub strong{color:#FACC15;}
+  .grid{display:grid;gap:10px;margin-top:16px;}
+  .grid a{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:16px;color:#F5F7FA;text-decoration:none;font-weight:600;}
+</style>

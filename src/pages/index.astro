@@ -1,11 +1,30 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Tabs from '../components/Tabs.astro';
 ---
 
 <Layout>
-	<Welcome />
+  <Tabs />
+  <main>
+    <p class="eyebrow">Best Rizz App</p>
+    <h1>Turn rejection into currency.</h1>
+    <p class="sub">The social gym that gamifies approaching strangers. Every rejection earns double XP. Every approach builds the muscle.</p>
+    <div class="cta-row"><a class="cta" href="/auth/signin">Start Training</a><a class="ghost" href="/lessons/first-60-seconds">See demo lesson</a></div>
+    <div class="cards">
+      <div><strong>Week 1</strong><span>First rep is hardest. Ask for time. Survive.</span></div>
+      <div><strong>Week 4</strong><span>40 approaches. Fear loses its vote.</span></div>
+      <div><strong>Week 12</strong><span>Approaching = ordering coffee. Autopilot.</span></div>
+    </div>
+  </main>
 </Layout>
+
+<style>
+  main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:48px 20px 96px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;}
+  .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  h1{font-size:34px;margin:8px 0;font-family:"Inter Tight",Inter,sans-serif;}
+  .sub{color:#9AA4B2;line-height:1.6;}
+  .cta-row{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap;}
+  .cta{background:#FF3B30;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:12px 22px;}
+  .ghost{border:1px solid #262B33;color:#F5F7FA;text-decoration:none;border-radius:999px;padding:12px 22px;}
+  .cards{display:grid;gap:10px;margin-top:10px;} .cards div{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:4px;} .cards span{color:#9AA4B2;font-size:13.5px;}
+</style>

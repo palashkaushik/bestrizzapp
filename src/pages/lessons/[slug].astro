@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { LESSONS } from '../../data/lessons';
+export function getStaticPaths() { return LESSONS.map((l) => ({ params: { slug: l.slug } })); }
+const { slug } = Astro.params;
+const lesson = LESSONS.find((l) => l.slug === slug)!;
+---
+
+<Layout>
+  <main>
+    <a class="back" href="/lessons">← All lessons</a>
+    <p class="eyebrow">{lesson.level} · {lesson.minutes} min · +{lesson.xp} XP</p>
+    <h1>{lesson.title}</h1>
+    <p class="ctx">{lesson.context}</p>
+    <div class="player"><iframe src={lesson.video} title={lesson.title} allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+    <details><summary>Transcript fallback (if video fails)</summary><p>{lesson.transcript}</p></details>
+    <h2>Make your call</h2>
+    <div class="choices">
+      {lesson.choices.map((c, i) => (<button data-i={i} class="choice">{c.label}</button>))}
+    </div>
+    <div id="out" class="out" hidden></div>
+  </main>
+</Layout>
+
+<script define:vars={{ lesson }}>
+  import { finishLesson } from '../../lib/store';
+  const out = document.getElementById('out');
+  document.querySelectorAll('.choice').forEach((b) => b.addEventListener('click', () => {
+    const c = lesson.choices[Number(b.dataset.i)];
+    out.hidden = false;
+    out.textContent = (c.best ? 'Best move. ' : '') + c.outcome;
+    if (c.best) finishLesson(lesson.slug, lesson.xp);
+  }));
+</script>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .back,.eyebrow{color:#9AA4B2;font-size:13px;} h1{margin:6px 0;} .ctx{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:14px;} .player{aspect-ratio:16/9;margin:14px 0;} iframe{width:100%;height:100%;border:0;border-radius:14px;} .choices{display:grid;gap:8px;} .choice{background:#15181D;color:#F5F7FA;border:1px solid #262B33;border-radius:14px;padding:14px;cursor:pointer;text-align:left;} .choice:hover{border-color:#FF3B30;} .out{margin-top:12px;background:#0B0D10;border:1px solid #FACC15;border-radius:14px;padding:14px;color:#FACC15;}</style>

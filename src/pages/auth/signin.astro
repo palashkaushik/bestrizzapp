@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Best Rizz App</p>
+    <h1>Start training</h1>
+    <p class="sub">Google one-click. Magic link fallback. Progress syncs when Supabase is connected.</p>
+    <div class="card">
+      <button id="google" class="cta">Continue with Google</button>
+      <form id="magic">
+        <input id="email" type="email" required placeholder="you@email.com" />
+        <button class="ghost" type="submit">Send magic link</button>
+      </form>
+      <p id="msg" class="msg"></p>
+      <a class="demo" href="/app">Continue in demo mode →</a>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { supa, supaConfigured } from '../../lib/supabase';
+  const msg = document.getElementById('msg')!;
+  document.getElementById('google')!.addEventListener('click', async () => {
+    if (!supaConfigured || !supa) { msg.textContent = 'Demo mode: Supabase not connected. Use demo link below.'; return; }
+    const { error } = await supa.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/auth/callback' } });
+    if (error) msg.textContent = error.message;
+  });
+  document.getElementById('magic')!.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('email') as HTMLInputElement).value;
+    if (!supaConfigured || !supa) { msg.textContent = 'Demo mode: magic link needs Supabase keys in .env.'; return; }
+    const { error } = await supa.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + '/auth/callback' } });
+    msg.textContent = error ? error.message : 'Check your inbox for the link.';
+  });
+</script>
+
+<style>
+  main { background:#0B0D10; color:#F5F7FA; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:48px 20px; font-family:Inter,system-ui,sans-serif; }
+  .eyebrow { color:#9AA4B2; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+  .card { background:#15181D; border:1px solid #262B33; border-radius:14px; padding:20px; width:min(420px,100%); display:flex; flex-direction:column; gap:12px; }
+  .cta { background:#FF3B30; color:#fff; border:0; border-radius:999px; padding:12px; font-weight:700; cursor:pointer; }
+  .ghost { background:transparent; color:#F5F7FA; border:1px solid #262B33; border-radius:999px; padding:10px; cursor:pointer; }
+  input { background:#0B0D10; border:1px solid #262B33; border-radius:10px; padding:10px 12px; color:#F5F7FA; width:100%; box-sizing:border-box; }
+  form { display:flex; flex-direction:column; gap:8px; }
+  .msg { color:#FACC15; min-height:1.2em; font-size:13px; }
+  .demo { color:#9AA4B2; font-size:13px; text-align:center; }
+  .sub { color:#9AA4B2; }
+</style>

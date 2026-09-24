@@ -1,0 +1,20 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { CASES } from '../../data/cases';
+export function getStaticPaths() { return CASES.map((c) => ({ params: { slug: c.slug } })); }
+const { slug } = Astro.params;
+const c = CASES.find((x) => x.slug === slug)!;
+---
+
+<Layout>
+  <main>
+    <a class="back" href="/cases">← All cases</a>
+    <h1>{c.title}</h1>
+    <p class="ctx">{c.context}</p>
+    <p class="stats">{c.stats}</p>
+    <h2>What happened</h2>
+    <p class="lesson">{c.lesson}</p>
+  </main>
+</Layout>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .back{color:#9AA4B2;font-size:13px;} .ctx,.lesson{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:14px;} .stats{color:#FACC15;font-family:monospace;}</style>

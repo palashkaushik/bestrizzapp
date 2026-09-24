@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { MISSIONS } from '../../data/missions';
+export function getStaticPaths() { return MISSIONS.map((m) => ({ params: { id: m.id } })); }
+const { id } = Astro.params;
+const mission = MISSIONS.find((m) => m.id === id)!;
+---
+
+<Layout>
+  <main>
+    <a class="back" href="/missions">← All missions</a>
+    <p class="eyebrow">Week {mission.week} · +{mission.xp} XP · rejection = 2x</p>
+    <h1>{mission.title}</h1>
+    <p class="brief">{mission.brief}</p>
+    <div class="log">
+      <button data-r="success" class="b ok">Logged success</button>
+      <button data-r="rejection" class="b gold">Logged rejection (2x XP)</button>
+      <input id="note" placeholder="10-second note (optional)" />
+      <p id="msg" class="msg"></p>
+    </div>
+  </main>
+</Layout>
+
+<script define:vars={{ mission }}>
+  import { addXP } from '../../lib/store';
+  const msg = document.getElementById('msg');
+  document.querySelectorAll('.b').forEach((b) => b.addEventListener('click', () => {
+    const r = b.dataset.r;
+    const xp = r === 'rejection' ? mission.xp * 2 : mission.xp;
+    const total = addXP(xp);
+    msg.textContent = `+${xp} XP banked. Total ${total}. Streak extended. Next rep →`;
+  }));
+</script>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .back,.eyebrow{color:#9AA4B2;font-size:13px;} .brief{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:14px;} .log{display:grid;gap:8px;margin-top:12px;} .b{border-radius:999px;padding:12px;border:1px solid #262B33;cursor:pointer;font-weight:700;} .ok{background:#22C55E;color:#06130b;} .gold{background:#FACC15;color:#231a02;} input{background:#0B0D10;border:1px solid #262B33;border-radius:10px;padding:10px;color:#F5F7FA;} .msg{color:#FACC15;}</style>

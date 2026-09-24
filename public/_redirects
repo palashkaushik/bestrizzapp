@@ -1,0 +1,1 @@
+# Cloudflare Pages redirects (limit: 2000 static + 100 dynamic). None needed — Astro SSG emits real files per route.

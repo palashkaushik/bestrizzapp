@@ -1,0 +1,108 @@
+---
+import { DIMENSIONS, DEMO_SCORES, rankDims } from '../data/charisma';
+
+interface Props {
+  scores?: Record<string, number>;
+  size?: number;
+}
+
+const { scores = DEMO_SCORES, size = 340 } = Astro.props as Props;
+const { strengths, growth, average } = rankDims(scores);
+
+const cx = size / 2;
+const cy = size / 2;
+const R = size / 2 - 46;
+const N = DIMENSIONS.length;
+const rings = [20, 40, 60, 80, 100];
+
+const pt = (i: number, v: number) => {
+  const a = (Math.PI * 2 * i) / N - Math.PI / 2;
+  const r = (R * v) / 100;
+  return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+};
+const ringPts = (v: number) => DIMENSIONS.map((_, i) => pt(i, v).join(',')).join(' ');
+const scorePts = DIMENSIONS.map((d, i) => pt(i, scores[d.key] ?? 0).join(',')).join(' ');
+const labelPt = (i: number) => pt(i, 122);
+---
+
+<div class="radar-wrap" role="img" aria-label={`Confidence radar. Average ${average}. Highest ${strengths[0].label} ${strengths[0].value}. Focus ${growth[0].label} ${growth[0].value}.`}>
+  <div class="radar-head">
+    <div>
+      <p class="eyebrow">Confidence Radar · Analytics View</p>
+      <h2>10-Axis Charisma Map</h2>
+    </div>
+    <div class="avg-pill" title="Mean of 10 dimensions">AVG {average}</div>
+  </div>
+
+  <svg viewBox={`0 0 ${size} ${size}`} class="radar-svg" aria-hidden="true">
+    {rings.map((r) => (
+      <polygon points={ringPts(r)} fill="none" stroke="#262B33" stroke-width="1" />
+      <text x={cx + 4} y={cy - (R * r) / 100 - 4} fill="#5b6572" font-size="9" font-family="JetBrains Mono, monospace">{r}</text>
+    ))}
+    {DIMENSIONS.map((_, i) => {
+      const [x, y] = pt(i, 100);
+      return <line x1={cx} y1={cy} x2={x} y2={y} stroke="#1d2229" stroke-width="1" />;
+    })}
+    <polygon points={scorePts} fill="rgba(255,59,48,.22)" stroke="#FF3B30" stroke-width="2" stroke-linejoin="round" class="radar-poly" />
+    {DIMENSIONS.map((d, i) => {
+      const [x, y] = pt(i, scores[d.key] ?? 0);
+      const hot = d.key === strengths[0].key || d.key === growth[0].key;
+      return <circle cx={x} cy={y} r={hot ? 4.5 : 3} fill={d.key === growth[0].key ? '#FACC15' : '#FF3B30'} stroke="#0B0D10" stroke-width="1.5"><title>{`${d.label}: ${scores[d.key]}`}</title></circle>;
+    })}
+    {DIMENSIONS.map((d, i) => {
+      const [x, y] = labelPt(i);
+      return <text x={x} y={y} text-anchor="middle" dominant-baseline="middle" fill="#9AA4B2" font-size="10.5" font-weight="600">{d.short}</text>;
+    })}
+  </svg>
+
+  <div class="insight-grid">
+    <div class="card strength">
+      <p class="card-eyebrow">Top strengths</p>
+      {strengths.map((s, idx) => (
+        <p class="row"><span>{idx === 0 ? 'Highest' : 'Second'}: <strong>{s.label}</strong></span><span class="score good">{s.value}</span></p>
+      ))}
+      <p class="tip">{strengths[0].tip}</p>
+    </div>
+    <div class="card focus">
+      <p class="card-eyebrow">Key growth areas</p>
+      {growth.map((g, idx) => (
+        <p class="row"><span>{idx === 0 ? 'Focus Area' : 'Watch'}: <strong>{g.label}</strong></span><span class="score warn">{g.value}</span></p>
+      ))}
+      <p class="tip">{growth[0].tip}</p>
+    </div>
+  </div>
+
+  <details class="a11y">
+    <summary>View scores as table (screen-reader friendly)</summary>
+    <table>
+      <thead><tr><th>Dimension</th><th>Score</th></tr></thead>
+      <tbody>{DIMENSIONS.map((d) => (<tr><td>{d.label}</td><td>{scores[d.key] ?? 0}</td></tr>))}</tbody>
+    </table>
+  </details>
+</div>
+
+<style>
+  .radar-wrap { background:#15181D; border:1px solid #262B33; border-radius:14px; padding:20px; color:#F5F7FA; font-family:Inter, system-ui, sans-serif; max-width:560px; }
+  .radar-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:8px; }
+  .eyebrow { color:#9AA4B2; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 4px; }
+  h2 { margin:0; font-size:20px; }
+  .avg-pill { background:#0B0D10; border:1px solid #262B33; color:#FACC15; font-family:'JetBrains Mono', monospace; font-weight:700; border-radius:999px; padding:8px 14px; font-size:13px; white-space:nowrap; }
+  .radar-svg { width:100%; height:auto; display:block; }
+  .radar-poly { animation: draw 1.1s ease-out both; }
+  @keyframes draw { from { opacity:0; transform:scale(.92); transform-origin:center; } to { opacity:1; transform:scale(1); transform-origin:center; } }
+  @media (prefers-reduced-motion: reduce) { .radar-poly { animation:none; } }
+  .insight-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+  @media (max-width:480px) { .insight-grid { grid-template-columns:1fr; } }
+  .card { background:#0B0D10; border:1px solid #262B33; border-radius:14px; padding:14px; }
+  .strength { box-shadow:0 0 0 1px rgba(34,197,94,.25), 0 8px 30px rgba(0,0,0,.35); }
+  .focus { box-shadow:0 0 0 1px rgba(250,204,21,.3), 0 8px 30px rgba(0,0,0,.35); }
+  .card-eyebrow { margin:0 0 8px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#9AA4B2; }
+  .row { display:flex; justify-content:space-between; align-items:center; margin:6px 0; font-size:13.5px; }
+  .score { font-family:'JetBrains Mono', monospace; font-weight:700; border-radius:999px; padding:2px 10px; }
+  .good { background:rgba(34,197,94,.15); color:#22C55E; }
+  .warn { background:rgba(250,204,21,.14); color:#FACC15; }
+  .tip { color:#9AA4B2; font-size:12.5px; line-height:1.5; margin:10px 0 0; }
+  .a11y { margin-top:12px; color:#9AA4B2; font-size:13px; }
+  .a11y table { width:100%; border-collapse:collapse; margin-top:8px; }
+  .a11y th, .a11y td { border:1px solid #262B33; padding:6px 8px; text-align:left; }
+</style>

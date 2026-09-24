@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ConfidenceRadar from '../components/ConfidenceRadar.astro';
+import { DEMO_SCORES, rankDims } from '../data/charisma';
+
+const { average, strengths } = rankDims(DEMO_SCORES);
+const rizz = average + 12;
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Profile · Analytics View</p>
+    <h1>Confidence Radar</h1>
+    <p class="sub">Rizz Score <strong>{rizz}</strong> · Streak <strong>6 days</strong> · Level <strong>Intermediate</strong></p>
+    <ConfidenceRadar scores={DEMO_SCORES} />
+    <div class="streak-card">
+      <p class="eyebrow">Streak · last 14 days</p>
+      <svg viewBox="0 0 280 48" class="spark" aria-hidden="true">
+        {[2,5,3,6,4,7,5,8,6,9,7,10,8,6].map((v, i) => (
+          <rect x={i * 20 + 4} y={48 - v * 4} width="12" height={v * 4} rx="3" fill={v >= 7 ? '#FACC15' : '#262B33'} />
+        ))}
+      </svg>
+      <p class="sub">6-day streak · best 10 · XP banked locally, syncs to Supabase when connected</p>
+    </div>
+    <p class="next">Strongest signal: {strengths[0].label}. Keep it. Next mission targets your focus area.</p>
+    <a class="cta" href="/missions">Train focus area →</a>
+  </main>
+</Layout>
+
+<style>
+  main { background:#0B0D10; color:#F5F7FA; font-family:Inter, system-ui, sans-serif; min-height:100vh; padding:32px 20px 64px; display:flex; flex-direction:column; align-items:center; }
+  .eyebrow { color:#9AA4B2; font-size:12px; letter-spacing:.08em; text-transform:uppercase; margin:0 0 6px; }
+  h1 { margin:0 0 6px; font-size:28px; }
+  .sub { color:#9AA4B2; margin:0 0 18px; }
+  .sub strong { color:#FACC15; }
+  .next { color:#9AA4B2; margin:18px 0 12px; }
+  .cta { background:#FF3B30; color:#fff; text-decoration:none; font-weight:700; border-radius:999px; padding:12px 22px; box-shadow:0 0 0 1px rgba(255,59,48,.4), 0 8px 24px rgba(255,59,48,.25); }
+  .streak-card { background:#15181D; border:1px solid #262B33; border-radius:14px; padding:16px; margin-top:16px; width:min(560px,100%); box-sizing:border-box; }
+  .spark { width:100%; height:auto; display:block; }
+</style>

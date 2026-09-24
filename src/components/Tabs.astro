@@ -1,0 +1,21 @@
+---
+const links = [
+  { href: '/lessons', label: 'Lessons' },
+  { href: '/missions', label: 'Missions' },
+  { href: '/practice', label: 'Practice' },
+  { href: '/cases', label: 'Cases' },
+  { href: '/profile', label: 'Profile' },
+];
+const path = Astro.url.pathname;
+---
+
+<nav aria-label="Primary">
+  {links.map((l) => (<a href={l.href} aria-current={path.startsWith(l.href) ? 'page' : undefined}>{l.label}</a>))}
+</nav>
+
+<style>
+  nav { position:fixed; left:0; right:0; bottom:0; display:flex; gap:4px; padding:10px 10px calc(10px + env(safe-area-inset-bottom)); background:rgba(11,13,16,.92); border-top:1px solid #262B33; backdrop-filter:blur(12px); z-index:50; }
+  a { flex:1; text-align:center; color:#9AA4B2; text-decoration:none; font-size:12.5px; font-weight:600; padding:10px 4px; border-radius:999px; font-family:Inter,system-ui,sans-serif; }
+  a[aria-current="page"] { background:#FF3B30; color:#fff; }
+  @media (min-width:760px) { nav { position:sticky; top:0; bottom:auto; border-top:0; border-bottom:1px solid #262B33; max-width:720px; margin:0 auto; border-radius:0 0 14px 14px; } }
+</style>

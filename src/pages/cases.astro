@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { CASES } from '../data/cases';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Cases · real situations</p>
+    <h1>Steal the pattern</h1>
+    <div class="grid">{CASES.map((c) => (<a href={`/cases/${c.slug}`}><strong>{c.title}</strong><span>{c.stats}</span></a>))}</div>
+  </main>
+</Layout>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;} .grid{display:grid;gap:10px;} .grid a{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:16px;color:#F5F7FA;text-decoration:none;display:flex;flex-direction:column;gap:4px;} .grid span{color:#9AA4B2;font-size:13px;}</style>

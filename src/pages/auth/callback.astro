@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout>
+  <main><p id="msg">Signing you in…</p></main>
+</Layout>
+
+<script>
+  import { supa, supaConfigured } from '../../lib/supabase';
+  (async () => {
+    const el = document.getElementById('msg')!;
+    if (!supaConfigured || !supa) { location.replace('/app?onboarding=1'); return; }
+    const { error } = await supa.auth.exchangeCodeForSession(location.href);
+    location.replace(error ? '/auth/signin?error=1' : '/app?onboarding=1');
+  })();
+</script>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,sans-serif;}</style>

@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { MISSIONS } from '../data/missions';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Missions · Week 1 / 4 / 12</p>
+    <h1>Do the rep</h1>
+    <div class="grid">{MISSIONS.map((m) => (<a href={`/missions/${m.id}`}><strong>{m.title}</strong><span>Week {m.week} · +{m.xp} XP{` · ${m.brief}`}</span></a>))}</div>
+  </main>
+</Layout>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:32px 20px;max-width:720px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;} .grid{display:grid;gap:10px;} .grid a{background:#15181D;border:1px solid #262B33;border-radius:14px;padding:16px;color:#F5F7FA;text-decoration:none;display:flex;flex-direction:column;gap:4px;} .grid span{color:#9AA4B2;font-size:13px;}</style>

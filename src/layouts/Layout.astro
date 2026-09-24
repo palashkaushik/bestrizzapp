@@ -5,19 +5,23 @@
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<meta name="theme-color" content="#0B0D10" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Best Rizz App — Turn Rejection Into Currency</title>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
+@import "../styles/global.css";
 	html,
 	body {
 		margin: 0;
 		width: 100%;
 		height: 100%;
+		background: #0b0d10;
 	}
 </style>
