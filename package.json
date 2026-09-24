@@ -22,6 +22,10 @@
     "zod": "^4.6.5"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "workerd": true
+  },
+  "devDependencies": {
+    "wrangler": "^4.137.0"
   }
 }
