@@ -1,6 +1,6 @@
 # Document 06 — Implementation Plan (Step-by-Step Build)
 
-> Status baseline: 2026-09-24 — ALL PHASES 1-9 DONE. Live: https://bestrizzapp.palash-kaushik.workers.dev (Workers Static Assets, 19 pages, smoke passed). DB live (3 lessons via API). You may remove/add phases with full autonomy.
+> Status baseline: 2026-09-24 — ALL PHASES 1-9 DONE + teardown-match gaps closed. Live: https://bestrizzapp.palash-kaushik.workers.dev (22 pages, smoke passed). DB live. Teardown evidence in gitignored teardown/. You may remove/add phases with full autonomy.
 
 - Phase 1: Setup
   - [x] Astro basics template + `npm install` + `npm run build` passes
@@ -31,6 +31,7 @@
   - [x] `/profile` Confidence Radar 10-axis + strengths/growth + Rizz Score (demo scores, Supabase-ready shape, build passes)
   - [x] `/practice` personas (mock v1, Edge Function LLM later) scored → `practice_sessions`
   - [x] `/cases/[slug]` decision view, streak chart on `/profile`
+  - [x] Teardown-match gaps (Empirio v2.0.1 APK): `/onboarding` 3-step quiz → profiler seed, `/result` focus-area profiler, `StreakWidget` on dashboard, `/paywall` Stripe-Payment-Links shell
   - Done: score persists, profile updates
 
 - Phase 7: UI Polish
@@ -43,7 +44,7 @@
 
 - Phase 9: Deploy(usually cloudflare pages or workers, choose according to the website)
   - [x] Chosen: Cloudflare Workers Static Assets via `@astrojs/cloudflare` (Cloudflare retired classic Pages creation; Workers serves the SSG `dist`, free tier, preview URLs on). Live: https://bestrizzapp.palash-kaushik.workers.dev
-  - [x] Smoke passed live: `/` 200, `/profile` 200 with radar + strengths/growth, `/lessons/first-60-seconds` 200 with choices.
+  - [x] Smoke passed live: `/` 200, `/profile` 200 with radar + strengths/growth, `/lessons/first-60-seconds` 200 with choices, `/onboarding` + `/result` + `/paywall` 200.
   - Done: prod URL live, `npm run build` green + `wrangler deploy` green
 
 - Done Criteria

@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # wrangler local state
 .wrangler/
+
+teardown/
+*.apk
+*.xapk
+*.apks
+

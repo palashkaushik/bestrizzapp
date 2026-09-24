@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { DIMENSIONS } from '../data/charisma';
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Profiler result</p>
+    <h1>Your starting map</h1>
+    <p class="sub">Based on onboarding + first reps. Your weakest two become this week's missions.</p>
+    <div class="grid" id="grid"></div>
+    <div class="row"><a class="cta" href="/missions">Train focus areas →</a><a class="ghost" href="/profile">Full radar →</a></div>
+  </main>
+</Layout>
+
+<script>
+  import { DEMO_SCORES } from '../data/charisma';
+  const grid = document.getElementById('grid');
+  const rows = Object.entries(DEMO_SCORES).sort((a, b) => a[1] - b[1]).slice(0, 3);
+  const names = { approach: 'Approach Initiation', escalation: 'Intent Escalation', pressure: 'Confidence Under Pressure', opener: 'Opener Originality', reflection: 'Reflection & Consistency', presence: 'Eye Contact & Presence', flow: 'Conversation Flow', humor: 'Humor & Playfulness', listening: 'Active Listening', calibration: 'Emotional Calibration' };
+  rows.forEach(([k, v], i) => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = `<strong>${i === 0 ? 'Focus Area' : 'Watch'}: ${names[k]}</strong><span>${v}/100</span>`;
+    grid.append(d);
+  });
+</script>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:48px 20px;max-width:560px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;} .sub{color:#9AA4B2;} .grid{display:grid;gap:10px;margin:16px 0;} .card{background:#15181D;border:1px solid #FACC15;border-radius:14px;padding:16px;display:flex;justify-content:space-between;} .card span{font-family:monospace;color:#FACC15;font-weight:700;} .row{display:flex;gap:10px;flex-wrap:wrap;} .cta{background:#FF3B30;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:12px 22px;} .ghost{border:1px solid #262B33;color:#F5F7FA;text-decoration:none;border-radius:999px;padding:12px 22px;}</style>

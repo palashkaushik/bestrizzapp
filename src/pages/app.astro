@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import StreakWidget from '../components/StreakWidget.astro';
 ---
 
 <Layout>
@@ -7,12 +8,16 @@ import Layout from '../layouts/Layout.astro';
     <p class="eyebrow">Dashboard</p>
     <h1>Train today</h1>
     <p class="sub">XP <strong id="xp">0</strong> · Streak <strong id="streak">0</strong></p>
+    <StreakWidget />
     <div class="grid">
+      <a href="/onboarding">Onboarding quiz →</a>
       <a href="/lessons">Video lessons →</a>
       <a href="/missions">Missions →</a>
       <a href="/practice">AI practice →</a>
       <a href="/cases">Cases →</a>
       <a href="/profile">Confidence Radar →</a>
+      <a href="/result">Profiler result →</a>
+      <a href="/paywall">Go Pro →</a>
     </div>
   </main>
 </Layout>

@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+const steps = [
+  { q: 'Where are you starting from?', opts: ['Frozen before opening', 'Conversations die fast', 'Good chats, no closes'] },
+  { q: 'Your weekly rep goal?', opts: ['3 approaches', '7 approaches', '14+ approaches'] },
+  { q: 'Your training style?', opts: ['Video lessons first', 'Straight to action', 'Mix of both'] },
+];
+---
+
+<Layout>
+  <main>
+    <p class="eyebrow">Onboarding · 30 seconds</p>
+    <h1>Build your profile</h1>
+    <div id="quiz">
+      {steps.map((s, i) => (
+        <section data-step={i} hidden={i !== 0}>
+          <h2>{s.q}</h2>
+          <div class="opts">{s.opts.map((o) => (<button data-v={o}>{o}</button>))}</div>
+        </section>
+      ))}
+    </div>
+    <p id="done" class="done" hidden>Profiler seeded. Your Week 1 ladder is ready.</p>
+    <a id="go" class="cta" href="/app" hidden>Enter the gym →</a>
+  </main>
+</Layout>
+
+<script>
+  const answers = [];
+  const sections = [...document.querySelectorAll('[data-step]')];
+  document.querySelectorAll('.opts button').forEach((b) => b.addEventListener('click', () => {
+    answers.push(b.dataset.v);
+    const cur = b.closest('section');
+    const next = sections[sections.indexOf(cur) + 1];
+    cur.hidden = true;
+    if (next) next.hidden = false;
+    else {
+      localStorage.setItem('rizz.onboarding', JSON.stringify(answers));
+      document.getElementById('done').hidden = false;
+      document.getElementById('go').hidden = false;
+    }
+  }));
+</script>
+
+<style>main{background:#0B0D10;color:#F5F7FA;min-height:100vh;padding:48px 20px;max-width:560px;margin:0 auto;font-family:Inter,system-ui,sans-serif;} .eyebrow{color:#9AA4B2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;} h2{font-size:22px;} .opts{display:grid;gap:10px;margin-top:12px;} button{background:#15181D;color:#F5F7FA;border:1px solid #262B33;border-radius:14px;padding:16px;font-size:15px;cursor:pointer;text-align:left;} button:hover{border-color:#FF3B30;} .done{color:#FACC15;} .cta{display:inline-block;background:#FF3B30;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:12px 22px;margin-top:8px;}</style>

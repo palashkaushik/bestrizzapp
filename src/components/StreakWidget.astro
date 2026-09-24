@@ -1,0 +1,21 @@
+---
+interface Props { streak?: number; xp?: number; compact?: boolean; }
+const { streak = 6, xp = 0, compact = false } = Astro.props as Props;
+const days = [2, 5, 3, 6, 4, 7, 5, 8, 6, 9, 7, 10, 8, 6];
+---
+
+<div class="streak">
+  <div class="top"><span>🔥 {streak}-day streak</span>{!compact && <span class="xp">{xp} XP</span>}</div>
+  {!compact && (
+    <svg viewBox="0 0 280 40" aria-hidden="true">
+      {days.map((v, i) => (<rect x={i * 20 + 4} y={40 - v * 3.4} width="12" height={v * 3.4} rx="3" fill={v >= 7 ? '#FACC15' : '#262B33'} />))}
+    </svg>
+  )}
+</div>
+
+<style>
+  .streak { background:#0B0D10; border:1px solid #262B33; border-radius:14px; padding:12px 14px; font-family:Inter,system-ui,sans-serif; color:#F5F7FA; font-size:13.5px; font-weight:600; }
+  .top { display:flex; justify-content:space-between; }
+  .xp { color:#FACC15; font-family:monospace; }
+  svg { width:100%; height:auto; display:block; margin-top:8px; }
+</style>
