@@ -1,6 +1,6 @@
 # Document 06 — Implementation Plan (Step-by-Step Build)
 
-> Status baseline: 2026-09-24 — ALL PHASES 1-9 DONE (19 pages green, 26 files/0.11MB, radar/missions/practice/cases/auth/DB-code live in repo; manual steps: paste schema.sql in Supabase + connect Pages repo + set envs). You may remove/add phases with full autonomy.
+> Status baseline: 2026-09-24 — Phases 1-8 done + Phase 2 DB LIVE-verified (API returns 3 lessons). Continuing Phase 9 Pages deploy. You may remove/add phases with full autonomy.
 
 - Phase 1: Setup
   - [x] Astro basics template + `npm install` + `npm run build` passes
@@ -10,7 +10,7 @@
 
 - Phase 2: Database
   - [x] Create Supabase Free project SQL for 9 tables + RLS + seed 3 lessons, 5 missions, 2 cases (`supabase/schema.sql` + `src/lib/supabase.ts` + `src/lib/store.ts`)
-  - [ ] Verify in Supabase Table Editor (manual one-click: create free project → paste schema.sql → run)
+  - [x] Verify in Supabase Table Editor (API live: 3/3 lessons readable via anon key)
   - Done: tables queryable with RLS on
 
 - Phase 3: Auth
