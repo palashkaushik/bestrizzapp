@@ -1,6 +1,6 @@
 # Document 06 — Implementation Plan (Step-by-Step Build)
 
-> Status baseline: 2026-09-24 — Phases 1-8 done + Phase 2 DB LIVE-verified (API returns 3 lessons). Continuing Phase 9 Pages deploy. You may remove/add phases with full autonomy.
+> Status baseline: 2026-09-24 — ALL PHASES 1-9 DONE. Live: https://bestrizzapp.palash-kaushik.workers.dev (Workers Static Assets, 19 pages, smoke passed). DB live (3 lessons via API). You may remove/add phases with full autonomy.
 
 - Phase 1: Setup
   - [x] Astro basics template + `npm install` + `npm run build` passes
@@ -42,9 +42,9 @@
   - Done: all critical flows green
 
 - Phase 9: Deploy(usually cloudflare pages or workers, choose according to the website)
-  - [x] Chosen: Cloudflare Pages (Suggested default, unlimited bandwidth) + Pages Functions for `/auth/callback` if needed. Set envs, custom domain, 500 builds/mo monitor.
-  - [x] Alternative if heavy SSR: Workers Paid $5/mo.
-  - Done: prod URL live, `npm run build` green on Pages
+  - [x] Chosen: Cloudflare Workers Static Assets via `@astrojs/cloudflare` (Cloudflare retired classic Pages creation; Workers serves the SSG `dist`, free tier, preview URLs on). Live: https://bestrizzapp.palash-kaushik.workers.dev
+  - [x] Smoke passed live: `/` 200, `/profile` 200 with radar + strengths/growth, `/lessons/first-60-seconds` 200 with choices.
+  - Done: prod URL live, `npm run build` green + `wrangler deploy` green
 
 - Done Criteria
   - All boxes ticked against phase Done, status note updated with date, codebase MCP re-indexed, prod smoke passes.

@@ -13,14 +13,14 @@
   - Supabase Auth email + OAuth Google (Suggested default, $0 extra, RLS-native, SSR via @supabase/ssr). Alternatives: Better Auth (free OSS, own DB, no per-user fees, best for ownership) or Clerk Hobby 50k MRU free (best drop-in UI, but users live outside DB). WorkOS 1M MAU noted but overkill v1.
 
 - Hosting
-  - Cloudflare Pages Free (Suggested default): unlimited bandwidth, 500 builds/mo, 100 custom domains, commercial use allowed, 20k files/site. SSR/API via Pages Functions (Workers Free 100k req/day). Chosen over Vercel Hobby (100 GB, non-commercial only) and Netlify Free (300 credits/mo). Deploy: `npm run build` → Pages.
+  - Cloudflare Workers Static Assets via `@astrojs/cloudflare` (live: https://bestrizzapp.palash-kaushik.workers.dev). Cloudflare retired classic Pages creation mid-build, so Workers serves the SSG output — free tier, preview URLs on. Deploy: `npm run build && wrangler deploy`. (Was: Pages; switched per owner decision B.)
 
 - Third-party APIs
   - Video v1: YouTube unlisted embeds, 100% free unlimited (Suggested default). Upgrade path: Bunny Stream (encoding FREE, storage $0.01/GB, CDN $0.005/GB, free player) when revenue. Avoid Mux/Cloudflare Stream v1 (pay per minute).
   - Email v1: Resend Free 100/day (Suggested default) for magic links fallback + streak nudges. None else v1.
 
 - Key Libraries
-  - `@supabase/supabase-js`, `@supabase/ssr`, `tailwindcss@4`, `gsap` (gsap-core/scrolltrigger skills for lesson transitions), `motion` (motion-dev-animations skill for 60fps micro-interactions), `zod` for validation. Player: native `<video>` + YouTube IFrame API v1.
+  - `@supabase/supabase-js`, `@supabase/ssr`, `tailwindcss@4`, `@astrojs/cloudflare`, `wrangler` (dev, deploy only), `gsap` (gsap-core/scrolltrigger skills for lesson transitions), `motion` (motion-dev-animations skill for 60fps micro-interactions), `zod` for validation. Player: native `<video>` + YouTube IFrame API v1.
 
 - Environment Variables
   - `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (server only), `PUBLIC_SITE_URL`, `RESEND_API_KEY` (optional v1). All in `.env`, never commit service_role.
